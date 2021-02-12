@@ -8,12 +8,12 @@ class MongoTransactionProcessor implements TransactionProcessor {
     private $transactionModel;
     private $fieldOperatorMappings = [
         'from_date' => [
-            'operator' => 'whereDate',
+            'operator' => 'where',
             'condition' => '>=',
             'column' => 'transaction_date'
         ],
         'to_date' => [
-            'operator' => 'whereDate',
+            'operator' => 'where',
             'condition' => '<',
             'column' => 'transaction_date'
         ],
@@ -27,6 +27,11 @@ class MongoTransactionProcessor implements TransactionProcessor {
             'condition' => '<',
             'column' => 'value_in_base_currency'
         ],
+    ];
+    private $select_fields = ["transaction_type", "to_account_number", "to_account_name", "transaction_date",
+        "transaction_mode", "beneficiary_provider_name",
+        "notes", "categories", "value_in_base_currency", "ref_transaction",
+        "status_name", "status_reason",
     ];
 
     public function __construct($transaction_model)
@@ -50,7 +55,7 @@ class MongoTransactionProcessor implements TransactionProcessor {
                     $query = $query->where($key, $value);
                 }
             }
-            $transactions = $query->get()->toArray();
+            $transactions = $query->select($this->select_fields)->get()->toArray();
             return json_decode(json_encode($transactions), true);
         }
         catch(\Illuminate\Database\QueryException $exception)
