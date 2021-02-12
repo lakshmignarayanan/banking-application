@@ -29,4 +29,6 @@ class TransactionController extends Controller {
         return ResponseHelper::format($transactionData);
     }
 
+    public function post() {}
+
 }

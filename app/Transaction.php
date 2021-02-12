@@ -2,6 +2,7 @@
 
 namespace App;
 use App\Core\TransactionProcessor;
+use App\Constants\HTTPConstant;
 
 class Transaction {
 
@@ -13,6 +14,11 @@ class Transaction {
     private $wildcardSearchableFields = ["beneficiary_account_number", "transaction_mode", "beneficiary_provider_name",
         "notes", "categories"]; //subset of $whitelistedFields
     private $where = array();
+    private $result = [
+        "code" => HTTPConstant::APPLICATION_ERROR,
+        "data" => [],
+        "error" => []
+    ];
 
     public function __construct(TransactionProcessor $transaction_processor) {
         $this->transactionProcessor = $transaction_processor;
@@ -32,7 +38,14 @@ class Transaction {
     }
 
     public function get($account_id) {
-        return $this->transactionProcessor->get($account_id, $this->where);
+        $transaction_data = $this->transactionProcessor->get($account_id, $this->where);
+        if(isset($transaction_data["error"])) {
+            $this->result["error"] = $transaction_data["error"];
+            return $this->result;
+        }
+        $this->result["code"] = HTTPConstant::OK;
+        $this->result["data"] = $transaction_data;
+        return $this->result;
     }
 
 }

@@ -18,16 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/transaction-history', function (Request $request) {
-    return $request->transaction();
-});
-
-Route::post('/transaction-history', function (Request $request) {
-    return $request->transaction();
-});
-
-$router->group([], function () use ($router)
+$router->group(['middleware' => ['validation']], function () use ($router)
 {
-	$router->get('/transaction-history', ['uses' => 'TransactionController@get']);
+    $router->get('/transaction-history', ['as' => 'transaction', 'uses' => 'TransactionController@get']);
+    $router->post('/transaction-history', ['as' => 'transaction', 'uses' => 'TransactionController@post']); //to handle more filters
 });
-

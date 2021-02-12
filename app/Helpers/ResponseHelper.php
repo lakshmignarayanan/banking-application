@@ -7,8 +7,8 @@ class ResponseHelper
 
     public static function format($response)
     {
-        $return['code'] = $response['operation_code']??0;
-        $return['message'] = __('messages.'.$return['code']);
+        $return['code'] = $response['code']??500; //let's assume the worst in fallback case - when code is not set
+        $return['message'] = __('message.'.$return['code']);
         $return['data'] = [];
         if(isset($response['data']) && gettype($response['data'] == 'array'))
         {
@@ -32,8 +32,20 @@ class ResponseHelper
         {
             $return['offset'] = $response['offset'];
         }
-        $response['http_code'] = $response['http_code']??0;
-        return response($return, $response['http_code']);
+        return response($return, $return['code']);
+    }
+
+    public static function filterValidationMessage($validationMessages)
+    {
+        $newArray = [];
+        $validationMessagesArray = $validationMessages->toArray();
+        if (!is_array($validationMessagesArray) || count($validationMessagesArray) <= 0) {
+            return (object)[];
+        }
+        foreach ($validationMessagesArray as $key => $value) {
+            $newArray[$key] = $value[0]??"";
+        }
+        return  $newArray;
     }
 
 }
