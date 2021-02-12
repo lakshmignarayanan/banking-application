@@ -1,25 +1,37 @@
 # banking-application
 NoSQL DB transactions collection schema
-Collection pattern: transaction_{account_id}_2021
+Collection pattern: transaction_{account_id}_{year}
+
+Example: transaction_19002839477_2021
 
 //transaction_type => dr|cr
+
 //transaction_mode => upi|neft|imps
+
 //beneficiary_provider_name => HDFC|PaytmPaymentsBank
+
 //notes => "user notes"
+
 //categories => groceries|shopping
+
 //ref_transaction => refund_against_1290003422
+
 //status_name => complete|failed|pending
+
 //status_reason => ""|network_error
 
 SQL DB tables structure:
 
 1. account table
+
     id | type_id | created_at | updated_at | status
 
 2. payment_mode table
+
     id | name | status | created_at | updated_at
 
 3. payment_provider table
+
     id | name | logo_url | status | created_at | updated_at
 
 
@@ -41,12 +53,12 @@ curl --location --request GET 'http://127.0.0.1:8000/api/transaction-history?acc
          {
             "transaction_type":"dr",
             "to_account_number":"167720900",
-            "to_account_name":"Pratheeba",
+            "to_account_name":"Pratheeba Condiments",
             "transaction_date":"2021-01-02",
             "transaction_mode":"upi",
             "beneficiary_provider_name":"HDFC",
             "notes":"",
-            "categories":"",
+            "categories":"groceries",
             "value_in_base_currency":230.00,
             "ref_transaction":"",
             "status_name":"ok",
