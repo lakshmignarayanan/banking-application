@@ -1,24 +1,34 @@
 # banking-application
-NoSQL DB transactions collection schema
-Collection pattern: transaction_{account_id}_{year}
+Available apis
+1. GET /transaction-history
 
-Example: transaction_19002839477_2021
+# App Structure
+1. app\Constants\AppConstant.php
+2. app\Constants\HTTPConstant.php
+3. app\Core\MongoTransactionProcessor.php
+4. app\Core\TransactionProcessor.php
+5. app\Helpers\ResponseHelper.php
+6. app\Http\Controllers\Controller.php
+7. app\Http\Controllers\TransactionController.php
+8. app\Http\Middleware\ValidationMiddleware.php
+9. app\Models\MongoDB\TransactionModel.php
+10. app\Models\MySQL\AccountModel.php
+11. app\Models\MySQL\PayementProviderModel.php
+12. app\Providers\TransactionServiceProvider.php
+13. app\Validators\Orchestrator;
+14. app\Validators\TransactionValidator;
+15. app\Account.php;
+16. app\Transaction;
 
-//transaction_type => dr|cr
+# Databases:
+1. NoSQL DB - Mongo
 
-//transaction_mode => upi|neft|imps
+Collections pattern - transaction_{account_id}_{year} `transaction_129003844_2021`
 
-//beneficiary_provider_name => HDFC|PaytmPaymentsBank
+Schema:
 
-//notes => "user notes"
+transaction_type(dr,cr) | transaction_mode(upi,neft,imps) | beneficiary_provider_name(HDFC) | notes(user notes) | categories(groceries) | ref_transaction | status_name | status_reason
 
-//categories => groceries|shopping
-
-//ref_transaction => refund_against_1290003422
-
-//status_name => complete|failed|pending
-
-//status_reason => ""|network_error
 
 SQL DB tables structure:
 
