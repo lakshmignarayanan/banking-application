@@ -22,7 +22,7 @@ class TransactionController extends Controller {
         $requestData = $this->request->all();
         $limit = $requestData['limit']??Config('transaction.history.limit');
         $offset = $requestData['offset']??0;
-        $account_id = $requestData['account_id'];
+        $account_id = $requestData['account_id']; //since we have already validated, this key will be set
 
         $this->transaction->setFilters($requestData);
         $transactionData = $this->transaction->get($account_id);

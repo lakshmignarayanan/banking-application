@@ -21,6 +21,9 @@ class TransactionValidator
             "transaction_type" => ["string", Rule::in(['cr', 'dr'])],
             "transaction_mode" => ["string", Rule::in(['upi', 'neft', 'imps', 'atm', 'other'])],
             "notes" => "string",
+            "to_account_number" => "string",
+            "to_account_name" => "string",
+            "ref_transaction" => "string",
         ];
 
         $validation_message = [
